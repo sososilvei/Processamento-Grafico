@@ -11,9 +11,8 @@ Trabalho da Disciplina de Processamento Gráfico do curso de Bacharelado em Ciê
 
 ------------------
 
-## Informações do Projeto
-
-### Objetivo: 
+## Informações sobre o Projeto
+ 
 O objetivo do Projeto Parcial 3 é visualizar uma cena 3D, implementando parte do processamento gráfico realizado em GPU. Para isso, o Projeto deverá conter:
 - Leitura de pelo menos 1 objeto 3D
 - Redimensionamento e posicionamento do(s) objeto(s) em um ambiente virtual
