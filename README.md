@@ -27,6 +27,6 @@ O objetivo do Projeto Parcial 3 é visualizar uma cena 3D, implementando parte d
 
 Para executar este Projeto, é necessário:
 1. baixar os arquivos deste repositório
-2. abrir o arquivo index.html em um navegador
+2. abrir o arquivo index.html em um [navegador que contenha suporte a WebGL](https://caniuse.com/webgl)
 
-OBS: É recomendado que se utilize o navegador Firefox.
+OBS: É recomendado que se utilize o navegador Firefox ou Google Chrome.
