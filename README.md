@@ -24,3 +24,9 @@ O objetivo do Projeto Parcial 3 é visualizar uma cena 3D, implementando parte d
 ------------------
 
 ## Como executar
+
+Para executar este Projeto, é necessário:
+1. baixar os arquivos deste repositório
+2. abrir o arquivo index.php em um navegador
+
+OBS: É recomendado que se utilize o navegador Firefox.
