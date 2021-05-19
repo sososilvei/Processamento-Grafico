@@ -5,8 +5,9 @@ Trabalho da Disciplina de Processamento Gráfico do curso de Bacharelado em Ciê
 - [Lucas Penteado Sacchi](https://github.com/lucaspsacchi)
 - [Sofia de Almeida Machado da Silveira](https://github.com/sososilvei)
 
-## Professor:
-Mario Liziér
+## Professores:
+- Mario Liziér
+- Siovani Cintra Felipussi
 
 
 
