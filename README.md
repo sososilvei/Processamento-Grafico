@@ -33,4 +33,3 @@ OBS: É recomendado que se utilize o navegador Firefox ou Google Chrome.
 ------------------
 
 ## Referências
-- [Classe WebGL utilizada para checar se o navegador tem suporte a WebGL](https://github.com/mrdoob/three.js/blob/master/examples/jsm/WebGL.js)
