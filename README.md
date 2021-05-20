@@ -29,7 +29,3 @@ Para executar este Projeto, é necessário:
 2. abrir o arquivo index.html em um [navegador que contenha suporte a WebGL](https://caniuse.com/webgl)
 
 OBS: É recomendado que se utilize o navegador Firefox ou Google Chrome.
-
-------------------
-
-## Referências
