@@ -33,4 +33,4 @@ OBS: É recomendado que se utilize o navegador Firefox ou Google Chrome.
 
 Para executar o Projeto:
 
-Abrir o caminho do projeto no terminal e executar o seguinte comando "python run.py" para abrir um servidor local com as configurações pré-definidas no arquivo run.py. Quando a mensagem "Servidor aberto com sucesso." aparecer, abra o navegador no caminho informado no terminal.
+Abrir o caminho do projeto no terminal e executar o seguinte comando "python run.py" para abrir um servidor local com as configurações pré-definidas no arquivo run.py. Quando a mensagem "Servidor aberto com sucesso." aparecer, abra o caminho informado no terminal no seu navegador.
