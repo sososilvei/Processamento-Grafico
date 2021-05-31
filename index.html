@@ -62,8 +62,14 @@
 				camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
 				camera.position.z = 25;
 
+				// OrbitControl (Camera para visualizar o cenário)
+				controls = new OrbitControls(camera, renderer.domElement);
+				controls.target.set(0, 0, -5);
+				controls.update();
+
 				// Material
 				var material1 = new THREE.MeshBasicMaterial({color: 0x996600, wireframe:false});
+				var material2 = new THREE.MeshBasicMaterial({color: 0x664400, wireframe:false});
 
 				// Carrega a imagem do shiba
 				loader = new FBXLoader();
@@ -103,6 +109,44 @@
 					scene.add(object);
 				});
 
+				// Carrega a imagem do baby shiba
+				loader = new FBXLoader();
+				loader.load('./obj/baby_shiba/baby_shiba.fbx', function (object) {
+					object.traverse(function (child) {
+						if (child instanceof THREE.Mesh) {
+							child.material = material2;
+						}
+					});
+
+					// Redimensionamento
+					m3 = new THREE.Matrix3().set(
+						10, 0, 0,
+						0, 10, 0,
+						0, 0, 10
+					);
+					object.scale.applyMatrix3(m3);
+
+					// Posicionamento
+					m4 = new THREE.Matrix4().set(
+						1, 0, 0, 6,
+						0, 1, 0, 0,
+						0, 0, 1, 0,
+						0, 0, 0, 1
+					);
+					object.position.setFromMatrixPosition(m4);
+
+					// Rotação
+					m4 = new THREE.Matrix4().set(
+						1, 0, 0, 0,
+						0, Math.cos(-Math.PI / 2), -Math.sin(-Math.PI / 2), 0,
+						0, Math.sin(-Math.PI / 2), Math.cos(-Math.PI / 2), 0,
+						0, 0, 0, 1
+					);
+					object.setRotationFromMatrix(m4);
+
+					scene.add(object);
+				});
+
 				// Atualiza as dimensões da cena
 				window.addEventListener('resize', function () {
 					const canvas = renderer.domElement;
@@ -112,6 +156,26 @@
 					camera.aspect = width / height;
 					// camera.updateProjectionMatrix();
 				});
+
+				// Armazenar o frame em uma imagem
+				const elem = document.querySelector('#screenshot');
+				elem.addEventListener('click', () => {
+					canvas.toBlob((blob) => {
+						saveBlob(blob, `img-${canvas.width}x${canvas.height}.png`);
+					});
+				});
+				
+				const saveBlob = (function() {
+					const a = document.createElement('a');
+					document.body.appendChild(a);
+					a.style.display = 'none';
+					return function saveData(blob, fileName) {
+						const url = window.URL.createObjectURL(blob);
+						a.href = url;
+						a.download = fileName;
+						a.click();
+					};
+				}());
 
 				// Anima o cenário
 				function animate() {
