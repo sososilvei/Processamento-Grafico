@@ -32,4 +32,5 @@ Requisitos básicos para executar o projeto:
 OBS: É recomendado que se utilize o navegador Firefox ou Google Chrome.
 
 Para executar este Projeto:
+
 Abrir o caminho do projeto no terminal e executar o seguinte comando "python run.py" para abrir um servidor local com as configurações pré-definidas no arquivo run.py. Quando a mensagem "Servidor aberto com sucesso." aparecer, abra o navegador com suporte a WebGL no caminho informado no terminal.
