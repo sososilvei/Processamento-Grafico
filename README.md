@@ -24,8 +24,13 @@ O objetivo do Projeto Parcial 3 é visualizar uma cena 3D, implementando parte d
 
 ## Como executar
 
-Para executar este Projeto, é necessário:
+Requisitos básicos para executar o projeto:
 1. baixar os arquivos deste repositório
-2. abrir o arquivo index.html em um [navegador que contenha suporte a WebGL](https://caniuse.com/webgl)
+2. possuir alguma versão do Python instalada na sua máquina
+3. garantir que seu [navegador que contenha suporte a WebGL](https://caniuse.com/webgl)
 
 OBS: É recomendado que se utilize o navegador Firefox ou Google Chrome.
+
+Para executar este Projeto, é necessário:
+Abrir o caminho do projeto no terminal e executar o seguinte comando "python run.py" para abrir um servidor local com as configurações pré-definidas no arquivo run.py. 
+Caso apareça a mensagem "Servidor aberto com sucesso.", abra o navegador com suporte a WebGL no caminho informado no terminal.
