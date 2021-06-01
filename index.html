@@ -41,6 +41,56 @@
 			import { OrbitControls } from './js/OrbitControls.js';
 			import { FBXLoader } from './js/FBXLoader.js';
 
+			function redimensionamento(escalar) {
+				let m3;
+				m3 = new THREE.Matrix3().set(
+					escalar, 0, 0,
+					0, escalar, 0,
+					0, 0, escalar
+				);
+				return m3;
+			}
+
+			function posicionamento(arr) {
+				let m4;
+				m4 = new THREE.Matrix4().set(
+					1, 0, 0, arr[0],
+					0, 1, 0, arr[1],
+					0, 0, 1, arr[2],
+					0, 0, 0, 1
+				);
+				return m4;
+			}
+
+			function rotacao(eixo, angulo) {
+				let m4;
+				if (eixo == 'x') {
+					m4 = new THREE.Matrix4().set(
+						1, 0, 0, 0,
+						0, Math.cos(angulo), -Math.sin(angulo), 0,
+						0, Math.sin(angulo), Math.cos(angulo), 0,
+						0, 0, 0, 1
+					);
+				}
+				else if (eixo == 'y') {
+					m4 = new THREE.Matrix4().set(
+						Math.cos(angulo), 0, Math.sin(angulo), 0,
+						0, 1, 0, 0,
+						-Math.sin(angulo), 0, Math.cos(angulo), 0,
+						0, 0, 0, 1
+					);
+				}
+				else {
+					m4 = new THREE.Matrix4().set(
+						Math.cos(angulo), -Math.sin(angulo), 0, 0,
+						Math.sin(angulo), Math.cos(angulo), 0, 0,
+						0, 0, 1, 0,
+						0, 0, 0, 1
+					);
+				}
+				return m4;
+			}
+
 			function main() {
 				let camera, scene, renderer, loader, controls, m3, m4;
 				const canvas = document.querySelector('#c');
@@ -60,11 +110,11 @@
 				const near = 0.1;
 				const far = 1000;
 				camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-				camera.position.z = 25;
+				camera.position.setFromMatrixPosition(posicionamento([0,0,25]));
 
 				// OrbitControl (Camera para visualizar o cenário)
 				controls = new OrbitControls(camera, renderer.domElement);
-				controls.target.set(0, 0, -5);
+				controls.target.setFromMatrixPosition(posicionamento([0, 0, -5]));
 				controls.update();
 
 				// Material
@@ -81,30 +131,10 @@
 					});
 
 					// Redimensionamento
-					m3 = new THREE.Matrix3().set(
-						8, 0, 0,
-						0, 8, 0,
-						0, 0, 8
-					);
-					object.scale.applyMatrix3(m3);
+					object.scale.applyMatrix3(redimensionamento(8));
 
 					// Posicionamento
-					m4 = new THREE.Matrix4().set(
-						1, 0, 0, -6,
-						0, 1, 0, -2,
-						0, 0, 1, 0,
-						0, 0, 0, 1
-					);
-					object.position.setFromMatrixPosition(m4);
-
-					// Rotação
-					m4 = new THREE.Matrix4().set(
-						1, 0, 0, 0,
-						0, 1, 0, 0,
-						0, 0, 1, 0,
-						0, 0, 0, 1
-					);
-					object.setRotationFromMatrix(m4);
+					object.position.setFromMatrixPosition(posicionamento([-6,-2,0]));
 
 					scene.add(object);
 				});
@@ -119,29 +149,13 @@
 					});
 
 					// Redimensionamento
-					m3 = new THREE.Matrix3().set(
-						10, 0, 0,
-						0, 10, 0,
-						0, 0, 10
-					);
-					object.scale.applyMatrix3(m3);
+					object.scale.applyMatrix3(redimensionamento(10));
 
 					// Posicionamento
-					m4 = new THREE.Matrix4().set(
-						1, 0, 0, 6,
-						0, 1, 0, 0,
-						0, 0, 1, 0,
-						0, 0, 0, 1
-					);
-					object.position.setFromMatrixPosition(m4);
+					object.position.setFromMatrixPosition(posicionamento([6,0,0]));
 
 					// Rotação
-					m4 = new THREE.Matrix4().set(
-						1, 0, 0, 0,
-						0, Math.cos(-Math.PI / 2), -Math.sin(-Math.PI / 2), 0,
-						0, Math.sin(-Math.PI / 2), Math.cos(-Math.PI / 2), 0,
-						0, 0, 0, 1
-					);
+					m4 = rotacao('x',-Math.PI / 2)
 					object.setRotationFromMatrix(m4);
 
 					scene.add(object);
