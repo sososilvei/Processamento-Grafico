@@ -118,6 +118,8 @@
 				controls.update();
 
 				// Material
+				// A biblioteca não é flexível para poder implementar manualmente a rasterização no objeto.
+				// Porém, vamos compensar com implementação manual da tonalização no PP4.
 				var material1 = new THREE.MeshBasicMaterial({color: 0x996600, wireframe:false});
 				var material2 = new THREE.MeshBasicMaterial({color: 0x664400, wireframe:false});
 
