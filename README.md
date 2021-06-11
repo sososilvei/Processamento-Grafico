@@ -1,5 +1,5 @@
-# Projeto Parcial 3
-Trabalho da Disciplina de Processamento Gráfico do curso de Bacharelado em Ciência da Computação da Universidade Federal de São Carlos - UFSCar.
+# Projetos Parciais
+Trabalhos da Disciplina de Processamento Gráfico do curso de Bacharelado em Ciência da Computação da Universidade Federal de São Carlos - UFSCar.
 
 ## Integrantes:
 - [Lucas Penteado Sacchi](https://github.com/lucaspsacchi)
@@ -11,7 +11,7 @@ Trabalho da Disciplina de Processamento Gráfico do curso de Bacharelado em Ciê
 
 ------------------
 
-## Informações sobre o Projeto
+## Informações sobre o Projeto Parcial 3
  
 O objetivo do Projeto Parcial 3 é visualizar uma cena 3D, implementando parte do processamento gráfico realizado em GPU. Para isso, o Projeto deverá conter:
 - Leitura de pelo menos 1 objeto 3D
