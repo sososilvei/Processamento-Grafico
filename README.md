@@ -20,6 +20,17 @@ O objetivo do Projeto Parcial 3 é visualizar uma cena 3D, implementando parte d
 - Rasterização do(s) objeto(s) projetados (cor sólida)
 - Visualização ou armazenamento em uma imagem
 
+## Informações sobre o Projeto Parcial 4
+
+O Projeto Parcial 4 é uma continuação do Projeto Parcial 3 e deve coonter:
+- Inclusão de pelo menos mais um objeto 3D
+- Definição de pelo menos um ponto de luz
+- Tonalização dos objetos utilizando Phong ou Gouraud
+
+Como extras, o Projeto Parical 4 poderá conter:
+- geração de uma sequência de frames, incluindo movimentos independentes entre os objetos
+- z-buffer
+
 ------------------
 
 ## Como executar
