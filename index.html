@@ -34,12 +34,29 @@
 			Botão direito: altera a posição da câmera
 		</div>
 
+		<script type="x-shader/x-vertex" id="vertexShaders">
+			void main() {
+				vec4 mPosition = modelMatrix * vec4( position, 1.0 );
+				gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+			}
+		</script>
+	
+		<script type="x-shader/x-fragment" id="fragmentShaders">
+			void main(){
+				gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+			}
+		</script>
+
+
 		<script type="module">
 
 			// Imports
 			import * as THREE from './js/three.module.js';
 			import { OrbitControls } from './js/OrbitControls.js';
 			import { FBXLoader } from './js/FBXLoader.js';
+
+			// Global
+			var shiba1, shiba2, shiba3, shiba4, shiba5;
 
 			function redimensionamento(escalar) {
 				let m3;
@@ -96,7 +113,7 @@
 				const canvas = document.querySelector('#c');
 				
 				// Render
-				renderer = new THREE.WebGLRenderer({canvas, preserveDrawingBuffer: true});
+				renderer = new THREE.WebGLRenderer({canvas, preserveDrawingBuffer: true, antialias: true});
 				renderer.setSize(window.innerWidth, window.innerHeight);
 				document.body.appendChild(renderer.domElement);
 				renderer.setClearColor(0x7ec0ee);
@@ -104,13 +121,28 @@
 				// Scene
 				scene = new THREE.Scene();
 
+				// Luz
+				var light = new THREE.DirectionalLight(0xffffff, 1);
+
+				light.position.setFromMatrixPosition(posicionamento([0,100,100]));
+				scene.add(light);
+				//light.castShadow = true;
+				var d = 50;
+				// Acho que precisa arrumar para matrix
+				light.shadow.camera.left = -d;
+				light.shadow.camera.right = d;
+				light.shadow.camera.top = d;
+				light.shadow.camera.bottom = -d;
+				light.shadow.camera.far = 1000;
+
+
 				// Camera
 				const fov = 75;
 				const aspect = window.innerWidth / window.innerHeight;
 				const near = 0.1;
 				const far = 1000;
 				camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-				camera.position.setFromMatrixPosition(posicionamento([0,0,25]));
+				camera.position.setFromMatrixPosition(posicionamento([0,0,170]));
 
 				// OrbitControl (Camera para visualizar o cenário)
 				controls = new OrbitControls(camera, renderer.domElement);
@@ -123,44 +155,90 @@
 				var material1 = new THREE.MeshBasicMaterial({color: 0x996600, wireframe:false});
 				var material2 = new THREE.MeshBasicMaterial({color: 0x664400, wireframe:false});
 
-				// Carrega a imagem do shiba
-				loader = new FBXLoader();
-				loader.load('./obj/shiba/shiba.FBX', function (object) {
-					object.traverse(function (child) {
-						if (child instanceof THREE.Mesh) {
-							child.material = material1;
-						}
-					});
+				var material3 = new THREE.ShaderMaterial({
+					uniforms: {
+						type: "mat4",
+						value: new THREE.Matrix4().set(
+							1, 0, 0, 1,
+							0, 1, 0, 0,
+							0, 0, 1, 0,
+							0, 0, 0, 1
+						)
+					},
 
-					// Redimensionamento
-					object.scale.applyMatrix3(redimensionamento(8));
-
-					// Posicionamento
-					object.position.setFromMatrixPosition(posicionamento([-6,-2,0]));
-
-					scene.add(object);
+					vertexShader: document.getElementById("vertexShaders").textContent,
+					fragmentShader: document.getElementById("fragmentShaders").textContent
 				});
 
+				// Métodos de tratamentos
+				var onProgress = function(xhr) {
+					console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+				}
+
+				var onError = function(error) {
+					console.log('Algum erro aconteceu no carregamento da imagem');
+				}
+
+				// Chão
+				var geometry = new THREE.BoxGeometry(400,0.1,400);
+				var material = new THREE.MeshPhongMaterial({color: 0x006600});
+				var mesh = new THREE.Mesh(geometry,material);
+				scene.add(mesh);
+				mesh.position.setFromMatrixPosition(posicionamento([0,-20,0]));
+
+				// Carrega a imagem do shiba
+				var textureLoader = new THREE.TextureLoader();
+				textureLoader.load('./obj/shiba/default_Base_Color.png', function(texture){
+
+					loader = new FBXLoader();
+					loader.load('./obj/shiba/shiba.FBX', function (object) {
+
+						object.traverse(function (child) {
+							if (child instanceof THREE.Mesh) {
+								child.receiveShadow = true;
+								// child.material = material3;
+								child.material.map = texture;
+							}
+						});
+
+						// Redimensionamento
+						object.scale.applyMatrix3(redimensionamento(20));
+
+						// Posicionamento
+						object.position.setFromMatrixPosition(posicionamento([-30,0,-20]));
+						shiba1 = object;
+						scene.add(object);
+					}, onProgress, onError);
+				});
+
+
 				// Carrega a imagem do baby shiba
-				loader = new FBXLoader();
-				loader.load('./obj/baby_shiba/baby_shiba.fbx', function (object) {
-					object.traverse(function (child) {
-						if (child instanceof THREE.Mesh) {
-							child.material = material2;
-						}
-					});
+				var textureLoader = new THREE.TextureLoader();
+				textureLoader.load('./obj/baby_shiba/default_albedo.jpg', function(texture){
+					loader = new FBXLoader();
+					loader.load('./obj/baby_shiba/baby_shiba.fbx', function (object) {
 
-					// Redimensionamento
-					object.scale.applyMatrix3(redimensionamento(10));
+						object.traverse(function (child) {
+							if (child instanceof THREE.Mesh) {
+								child.receiveShadow = true;
+								// child.material = material3;
+								child.material.map = texture; // Carregar multiplas texturas
+							}
+						});
 
-					// Posicionamento
-					object.position.setFromMatrixPosition(posicionamento([6,0,0]));
+						
+						// Redimensionamento
+						object.scale.applyMatrix3(redimensionamento(20));
 
-					// Rotação
-					m4 = rotacao('x',-Math.PI / 2)
-					object.setRotationFromMatrix(m4);
+						// Posicionamento
+						object.position.setFromMatrixPosition(posicionamento([30,0,-20]));
 
-					scene.add(object);
+						// Rotação
+						m4 = rotacao('x',-Math.PI / 2)
+						object.setRotationFromMatrix(m4);
+						shiba2 = object;
+						scene.add(object);
+					}, onProgress, onError);
 				});
 
 				// Atualiza as dimensões da cena
@@ -193,12 +271,19 @@
 					};
 				}());
 
+
 				// Anima o cenário
+				// const clock = new THREE.Clock();
 				function animate() {
 					requestAnimationFrame(animate);
+					render();
+				}
+
+				function render() {
 					renderer.render(scene, camera);
 				}
 				animate();
+				
 			}
 			// Começa tudo
 			main();
