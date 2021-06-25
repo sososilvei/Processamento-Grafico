@@ -241,6 +241,81 @@
 					}, onProgress, onError);
 				});
 
+				// Carrega a imagem do toy shiba
+				var textureLoader = new THREE.TextureLoader();
+				textureLoader.load('./obj/toy_shiba/shiba__1001_BaseColor.png', function(texture){
+
+					loader = new FBXLoader();
+					loader.load('./obj/toy_shiba/shiba.fbx', function (object) {
+
+						object.traverse(function (child) {
+							if (child instanceof THREE.Mesh) {
+								child.receiveShadow = true;
+								// child.material = material3;
+								child.material.map = texture;
+							}
+						});
+
+						// Redimensionamento
+						object.scale.applyMatrix3(redimensionamento(0.2));
+
+						// Posicionamento
+						object.position.setFromMatrixPosition(posicionamento([0,-20,0]));
+						shiba3 = object;
+						scene.add(object);
+					}, onProgress, onError);
+				});				
+
+				// Carrega a imagem do texture shiba
+				var textureLoader = new THREE.TextureLoader();
+				textureLoader.load('./obj/texture_shiba/default_baseColor_angieb1970.png', function(texture){
+
+					loader = new FBXLoader();
+					loader.load('./obj/texture_shiba/shiba.fbx', function (object) {
+
+						object.traverse(function (child) {
+							if (child instanceof THREE.Mesh) {
+								child.receiveShadow = true;
+								//child.receiveShadow = true;
+								child.material.map = texture;
+							}
+						});
+
+						// Redimensionamento
+						object.scale.applyMatrix3(redimensionamento(0.2));
+
+						// Posicionamento
+						object.position.setFromMatrixPosition(posicionamento([60,0,-40]));
+						shiba4 = object;
+						scene.add(object);
+					}, onProgress, onError);
+				});	
+
+				// Carrega a imagem do harry shiba
+				var textureLoader = new THREE.TextureLoader();
+				textureLoader.load('./obj/harry_shiba/DefaultMaterial_Base_Color.png', function(texture){
+
+					loader = new FBXLoader();
+					loader.load('./obj/harry_shiba/shiba.fbx', function (object) {
+
+						object.traverse(function (child) {
+							if (child instanceof THREE.Mesh) {
+								child.castShadow = true;
+    							//child.receiveShadow = true;
+								child.material.map = texture;
+							}
+						});
+
+						// Redimensionamento
+						object.scale.applyMatrix3(redimensionamento(0.2));
+
+						// Posicionamento
+						object.position.setFromMatrixPosition(posicionamento([-60,-20,-40]));
+						shiba5 = object;
+						scene.add(object);
+					}, onProgress, onError);
+				});	
+
 				// Atualiza as dimensões da cena
 				window.addEventListener('resize', function () {
 					const canvas = renderer.domElement;
@@ -276,7 +351,19 @@
 				// const clock = new THREE.Clock();
 				function animate() {
 					requestAnimationFrame(animate);
+					movimentos();
 					render();
+				}
+
+				function movimentos() {
+					// Espera carregar todos os objs antes de movimentar
+					if (scene.children.length == 7) {
+						(shiba1.position.z > 170) ? shiba1.position.z = -170 : shiba1.position.z += 0.45;
+						(shiba2.position.z > 170) ? shiba2.position.z = -170 : shiba2.position.z += 0.45;
+						(shiba3.position.z > 170) ? shiba3.position.z = -170 : shiba3.position.z += 0.5;
+						(shiba4.position.z > 170) ? shiba4.position.z = -170 : shiba4.position.z += 0.4;
+						(shiba5.position.z > 170) ? shiba5.position.z = -170 : shiba5.position.z += 0.4;
+					}
 				}
 
 				function render() {
